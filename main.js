@@ -18,7 +18,13 @@ function createPlayer(container) {
         }
     }
 
+    function updateProgress(e) {
+        progress.style.width = `${e.currentTarget.currentTime / e.currentTarget.duration * 100}%`;
+    }
+
     play.addEventListener("click", togglePlay);
+
+    video.addEventListener("timeupdate", updateProgress);
 }
 
 createPlayer(document.querySelector("[data-js-player]"));
