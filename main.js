@@ -13,7 +13,9 @@ function createPlayer(container) {
             .join(":");
     }
 
-    function togglePlay() {
+    function togglePlay(e) {
+        e.stopPropagation();
+
         if(video.paused) {
             video.play();
             play.classList.remove("fa-play");
@@ -38,7 +40,16 @@ function createPlayer(container) {
         progress.style.width = `${e.currentTarget.currentTime / e.currentTarget.duration * 100}%`;
     }
 
+    function setTime(e) {
+        const pos = e.currentTarget.getBoundingClientRect();
+        const left = e.pageX - pos.left;
+        const percentage = left / pos.width;
+
+        video.currentTime = video.duration * percentage;
+    }
+
     play.addEventListener("click", togglePlay);
+    timeline.addEventListener("click", setTime);
 
     video.addEventListener("timeupdate", updateProgress);
     video.addEventListener("durationchange", updateDuration);
