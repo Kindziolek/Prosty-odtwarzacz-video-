@@ -1,4 +1,4 @@
-function createPlayer(container) {
+function createPlayer(container, src) {
     const video = container.querySelector("video");
     const timeline = container.querySelector("[data-js-timeline]");
     const play = container.querySelector("[data-js-play]");
@@ -54,6 +54,11 @@ function createPlayer(container) {
     video.addEventListener("timeupdate", updateProgress);
     video.addEventListener("durationchange", updateDuration);
     video.addEventListener("timeupdate", updateTime);
+
+    video.setAttribute("src", src)
 }
 
-createPlayer(document.querySelector("[data-js-player]"));
+createPlayer(
+    document.querySelector("[data-js-player]"),
+"https://space.eduweb.pl/files/assets/video.mp4"
+);
