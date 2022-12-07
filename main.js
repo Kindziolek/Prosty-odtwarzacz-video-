@@ -6,6 +6,13 @@ function createPlayer(container) {
     const duration = container.querySelector("[data-js-duration]");
     const progress = container.querySelector("[data-js-progress]");
 
+    function secondsToTime(seconds) {
+        return [seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60]
+            .map((v) => (v < 10 ? `0${parseInt(v, 10)}` : parseInt(v, 10)))
+            .filter((i, j) => i !== "00" || j > 0)
+            .join(":");
+    }
+
     function togglePlay() {
         if(video.paused) {
             video.play();
@@ -18,6 +25,15 @@ function createPlayer(container) {
         }
     }
 
+    function updateDuration(e) {
+        duration.textContent = secondsToTime(e.currentTarget.duration);
+    }
+
+    function updateTime(e) {
+        time.textContent = secondsToTime(e.currentTarget.currentTime);
+    }
+
+
     function updateProgress(e) {
         progress.style.width = `${e.currentTarget.currentTime / e.currentTarget.duration * 100}%`;
     }
@@ -25,6 +41,8 @@ function createPlayer(container) {
     play.addEventListener("click", togglePlay);
 
     video.addEventListener("timeupdate", updateProgress);
+    video.addEventListener("durationchange", updateDuration);
+    video.addEventListener("timeupdate", updateTime);
 }
 
 createPlayer(document.querySelector("[data-js-player]"));
